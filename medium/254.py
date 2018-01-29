@@ -38,25 +38,40 @@ output:
 ]
 """
 
-def getFactors(num):
-    if num <= 1:
-        return []
-    factors = []
-    for i in xrange(2, num / 2 + 1):
-        if num % i == 0:
-            factors.append(i)
-    res = []
-    helper(res, factors, 0, num, [])
-    return res
+# def getFactors(num):
+#     if num <= 1:
+#         return []
+#     factors = []
+#     for i in xrange(2, num / 2 + 1):
+#         if num % i == 0:
+#             factors.append(i)
+#     res = []
+#     helper(res, factors, 0, num, [])
+#     return res
+#
+# def helper(res, factors, idx, num, tmp):
+#     if num == 1:
+#         res.append(tmp[:])
+#         return
+#     for i in xrange(idx, len(factors)):
+#         if factors[i] > num:
+#             break
+#         if num % factors[i] == 0:
+#             tmp.append(factors[i])
+#             helper(res, factors, i, num / factors[i], tmp)
+#             tmp.pop()
 
-def helper(res, factors, idx, num, tmp):
-    if num == 1:
-        res.append(tmp[:])
-        return
-    for i in xrange(idx, len(factors)):
-        if factors[i] > num:
-            break
-        if num % factors[i] == 0:
-            tmp.append(factors[i])
-            helper(res, factors, i, num / factors[i], tmp)
-            tmp.pop()
+def getFactors(self, n):
+    if n <= 1:
+        return []
+    def helper(n, k):
+        res = []
+        while k * k <= n:
+            if n % k == 0:
+                res.append([k, n/k])
+                tmp = helper(n / k, k)
+                for t in tmp:
+                    res.append([k] + t)
+            k += 1
+        return res
+    return helper(n, 2)
