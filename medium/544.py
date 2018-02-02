@@ -36,14 +36,20 @@ We ensure that the input n can be converted into the form 2k, where k is a posit
 
 
 def teamMatch(n):
-    if n < 2 or n & (n-1) != 0:
-        return []
-    return helper(range(1, n+1))
+    if n <= 1:
+        return "()"
+    tmp = str(helper(range(1, n+1)))
+    res = ""
+    for t in tmp:
+        if t == " ":
+            continue
+        res += t
+    return res
 
-def helper(game):
-    if len(game) == 1:
-        return game[0]
-    next_game = []
-    for i in xrange(len(game) / 2):
-        next_game.append((game[i], game[len(game) - i - 1]))
-    return helper(next_game)
+def helper(teams):
+    if len(teams) == 1:
+        return teams[0]
+    res = []
+    for i in xrange(len(teams)/2):
+        res.append((teams[i], teams[-1-i]))
+    return helper(res)

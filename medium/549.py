@@ -22,23 +22,28 @@ Explanation: The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 """
 
 def longestConsecutive(root):
-    total, single = helper(root)
+    if not root:
+        return 0
+    total, inc, dec = dfs(root)
     return total
 
-def helper(root):
-    if not root:
-        return 0, 0
-    single = total = 1
+def dfs(root):
+    if not root.left and not root.right:
+        return 1, 1, 1
+    total = inc = dec = 1
     if root.left:
-        left = helper(root.left)
-        if abs(root.left.val - root.val) == 1:
-            single += left[1]
-            total += left[1]
-        total = max(total, left[0])
+        lt, li, ld = dfs(root.left)
+        if root.left.val + 1 == root.val:
+            inc += li
+        elif root.left.val - 1 == root.val:
+            dec += ld
+        total = max(total, lt)
     if root.right:
-        right = helper(root.right)
-        if abs(root.right.val - root.val) == 1:
-            single = max(single, right[1] + 1)
-            total += right[1]
-        total = max(total, right[0])
-    return total, single
+        rt, ri, rd = dfs(root.right)
+        if root.right.val + 1 == root.val:
+            inc = max(ri+1, inc)
+        elif root.right.val - 1 == root.val:
+            dec = max(rd+1, dec)
+        total = max(total, rt)
+    total = max(total, inc + dec - 1)
+    return total, inc, dec

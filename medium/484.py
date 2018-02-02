@@ -20,7 +20,7 @@ The input string will only contain the character 'D' and 'I'.
 The length of input string is a positive integer and will not exceed 10,000
 """
 
-def findPermutation(s):
+def findPermutation1(s):
     nums = range(len(s) + 1, 1, -1)
     prev = 1
     idx = 0
@@ -43,3 +43,24 @@ def findPermutation(s):
                 nums.pop()
     res.append(prev)
     return res
+
+def findPermutation2(s):
+    if not s:
+        return [1]
+    res = range(1, len(s) + 2)
+    idx = 0
+    while idx < len(s):
+        if s[idx] == "I":
+            idx += 1
+            continue
+        start = idx
+        while idx < len(s) and s[idx] == "D":
+            idx += 1
+        reverse(res, start, idx)
+    return res
+
+def reverse(res, s, e):
+    while s < e:
+        res[s], res[e] = res[e], res[s]
+        s += 1
+        e -= 1

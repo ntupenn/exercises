@@ -36,4 +36,4 @@ def helper(m, n, used, check, point, size):
     used[point] = False
     return count
 
-print countPatterns(1, 9)
+print countPatterns(3, 3)
